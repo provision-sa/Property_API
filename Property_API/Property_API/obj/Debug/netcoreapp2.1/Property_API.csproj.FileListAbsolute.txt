@@ -1,0 +1,14 @@
+C:\Work\GitHub\Property_API\Property_API\Property_API\obj\Debug\netcoreapp2.1\Property_API.csprojAssemblyReference.cache
+C:\Work\GitHub\Property_API\Property_API\Property_API\obj\Debug\netcoreapp2.1\Property_API.csproj.CoreCompileInputs.cache
+C:\Work\GitHub\Property_API\Property_API\Property_API\obj\Debug\netcoreapp2.1\Property_API.RazorAssemblyInfo.cache
+C:\Work\GitHub\Property_API\Property_API\Property_API\obj\Debug\netcoreapp2.1\Property_API.RazorAssemblyInfo.cs
+C:\Work\GitHub\Property_API\Property_API\Property_API\obj\Debug\netcoreapp2.1\Property_API.AssemblyInfoInputs.cache
+C:\Work\GitHub\Property_API\Property_API\Property_API\obj\Debug\netcoreapp2.1\Property_API.AssemblyInfo.cs
+C:\Work\GitHub\Property_API\Property_API\Property_API\bin\Debug\netcoreapp2.1\Property_API.deps.json
+C:\Work\GitHub\Property_API\Property_API\Property_API\bin\Debug\netcoreapp2.1\Property_API.runtimeconfig.json
+C:\Work\GitHub\Property_API\Property_API\Property_API\bin\Debug\netcoreapp2.1\Property_API.runtimeconfig.dev.json
+C:\Work\GitHub\Property_API\Property_API\Property_API\bin\Debug\netcoreapp2.1\Property_API.dll
+C:\Work\GitHub\Property_API\Property_API\Property_API\bin\Debug\netcoreapp2.1\Property_API.pdb
+C:\Work\GitHub\Property_API\Property_API\Property_API\obj\Debug\netcoreapp2.1\Property_API.RazorTargetAssemblyInfo.cache
+C:\Work\GitHub\Property_API\Property_API\Property_API\obj\Debug\netcoreapp2.1\Property_API.dll
+C:\Work\GitHub\Property_API\Property_API\Property_API\obj\Debug\netcoreapp2.1\Property_API.pdb
