@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Property_API.Models;
 
 namespace Property_API.Repository
 {
-    public class UserDefinedFieldRepository : IUserDefinedFieldRepository
+    public class UserDefinedFieldRepository : IRepository<UserDefinedField>
     {
         private readonly DBContext dBContext;
 
@@ -14,30 +15,64 @@ namespace Property_API.Repository
             dBContext = _dBContext;
         }
 
-        public void Delete(int id)
+        public List<UserDefinedField> Get(Func<UserDefinedField, bool> where)
         {
-            var userDefineField = dBContext.UserDefinedFields.Find(id);
-            if (userDefineField != null)
-            {
-                dBContext.UserDefinedFields.Remove(userDefineField);
-                Save();
-            }
+            return dBContext.UserDefinedFields.Where(where).ToList();
         }
 
-        public UserDefinedField GetById(int id)
-        {
-            return dBContext.UserDefinedFields.Find(id);
-        }
-
-        public IEnumerable<UserDefinedField> GetList()
+        public List<UserDefinedField> GetAll()
         {
             return dBContext.UserDefinedFields.ToList();
         }
 
-        public void Insert(UserDefinedField userDefinedField)
+        public UserDefinedField GetDetailed(Func<UserDefinedField, bool> first)
         {
-            dBContext.UserDefinedFields.Add(userDefinedField);
+            return dBContext.UserDefinedFields.FirstOrDefault(first);
+        }
+
+        public List<UserDefinedField> GetDetailedAll()
+        {
+            return dBContext.UserDefinedFields.ToList();
+        }
+
+        public void Insert(UserDefinedField item)
+        {
+            dBContext.UserDefinedFields.Add(item);
             Save();
+        }
+
+        public void Insert(IEnumerable<UserDefinedField> items)
+        {
+            foreach(var item in items)
+            {
+                dBContext.UserDefinedFields.Add(item);
+                Save();
+            }
+        }
+
+        public void Remove(UserDefinedField item)
+        {
+            dBContext.UserDefinedFields.Remove(item);
+            Save();
+        }
+
+        public void Remove(IEnumerable<UserDefinedField> items)
+        {
+            foreach(var item in items)
+            {
+                dBContext.UserDefinedFields.Add(item);
+                Save();
+            }
+        }
+
+        public void RemoveAtId(int item)
+        {
+            var userDefinedField = Get(x => x.Id == item).FirstOrDefault();
+            if (userDefinedField != null)
+            {
+                dBContext.UserDefinedFields.Remove(userDefinedField);
+                Save();
+            }
         }
 
         public void Save()
@@ -45,10 +80,10 @@ namespace Property_API.Repository
             dBContext.SaveChanges();
         }
 
-        public void Update(UserDefinedField userDefinedField)
+        public void Update(UserDefinedField item)
         {
-            dBContext.Entry(userDefinedField).State = EntityState.Modified;
+            dBContext.Entry(item).State = EntityState.Modified;
             Save();
-        }
+        }        
     }
 }

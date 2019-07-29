@@ -33,10 +33,11 @@ namespace Property_API
             //services.AddDbContext<DBContext>(o => o.UseNpgsql(Configuration.GetConnectionString("PropertyDB")));
             services.AddDbContext<DBContext>(o => o.UseSqlServer(Configuration.GetConnectionString("PropertySQL")));
 
-            services.AddTransient<IPropertyRepository, PropertyRepository>();
-            services.AddTransient<IPropertyTypeRepository, PropertyTypeRepository>();
-            services.AddTransient<IPropertyUserFieldRepository, PropertyUserFieldRepository>();
-            services.AddTransient<IUserDefinedFieldRepository, UserDefinedFieldRepository>();
+            services.AddTransient<IRepository<Property>, PropertyRepository>();
+            services.AddTransient<IRepository<PropertyImage>, PropertyImageRepository>();
+            services.AddTransient<IRepository<PropertyType>, PropertyTypeRepository>();
+            services.AddTransient<IRepository<PropertyUserField>, PropertyUserFieldRepository>();
+            services.AddTransient<IRepository<UserDefinedField>, UserDefinedFieldRepository>();
             services.AddTransient<IUserDefinedGroupRepository, UserDefinedGroupRepository>();
 
             services.Configure<MvcOptions>(options =>

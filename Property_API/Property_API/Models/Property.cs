@@ -25,10 +25,8 @@ namespace Property_API.Models
 
         public virtual PropertyType PropertyType { get; set; }
 
-        public ICollection<PropertyUserField> PropertyUserFields { get; set; }        
-
-        [NotMapped]
-        public List<PropertyDetailGroup> DisplayData { get; set; }
+        public ICollection<PropertyUserField> PropertyUserFields { get; set; }
+        public ICollection<PropertyImage> PropertyImages { get; set; }
 
         [NotMapped]
         public string DisplayPrice
@@ -40,7 +38,7 @@ namespace Property_API.Models
         }
 
         [NotMapped]
-        public string DisplayDesc2
+        public string DisplayAddress
         {
             get
             {
@@ -56,6 +54,12 @@ namespace Property_API.Models
                 return value.Trim();
             }
         }
+
+        [NotMapped]
+        public string DisplayImage { get; set; }
+
+        [NotMapped]
+        public List<PropertyDetailGroup> DisplayData { get; set; }       
     }   
 
     public class PropertyDetailGroup

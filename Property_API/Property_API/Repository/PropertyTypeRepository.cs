@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Property_API.Models;
 
 namespace Property_API.Repository
 {
-    public class PropertyTypeRepository : IPropertyTypeRepository
+    public class PropertyTypeRepository : IRepository<PropertyType>
     {
         private readonly DBContext dBContext;
 
@@ -14,9 +15,59 @@ namespace Property_API.Repository
             dBContext = _dBContext;
         }
 
-        public void Delete(int id)
+        public List<PropertyType> Get(Func<PropertyType, bool> where)
         {
-            var propertyType = dBContext.PropertyTypes.Find(id);
+            return dBContext.PropertyTypes.Where(where).ToList();
+        }
+
+        public List<PropertyType> GetAll()
+        {
+            return dBContext.PropertyTypes.ToList();
+        }
+
+        public PropertyType GetDetailed(Func<PropertyType, bool> first)
+        {
+            return dBContext.PropertyTypes.FirstOrDefault(first);
+        }
+
+        public List<PropertyType> GetDetailedAll()
+        {
+            return dBContext.PropertyTypes.ToList();
+        }
+
+        public void Insert(PropertyType item)
+        {
+            dBContext.PropertyTypes.Add(item);
+            Save();
+        }
+
+        public void Insert(IEnumerable<PropertyType> items)
+        {
+            foreach(var item in items)
+            {
+                dBContext.PropertyTypes.Add(item);
+                Save();
+            }
+        }
+
+        public void Remove(PropertyType item)
+        {
+            dBContext.PropertyTypes.Remove(item);
+            Save();
+        }
+
+        public void Remove(IEnumerable<PropertyType> items)
+        {
+            foreach (var item in items)
+            {
+                dBContext.PropertyTypes.Remove(item);
+                Save();
+            }
+        }
+
+        public void RemoveAtId(int item)
+        {
+            var propertyType = Get(x => x.Id == item).FirstOrDefault();
             if (propertyType != null)
             {
                 dBContext.PropertyTypes.Remove(propertyType);
@@ -24,36 +75,14 @@ namespace Property_API.Repository
             }
         }
 
-        public PropertyType GetById(int id)
-        {
-            return dBContext.PropertyTypes.Find(id);
-        }
-
-        public IEnumerable<PropertyType> GetList()
-        {
-            return dBContext.PropertyTypes.ToList();
-        }
-
-        public IEnumerable<PropertyType> GetListOf(PropertyUsageType propertyUsage)
-        {
-            var propertyTypes = dBContext.PropertyTypes.Where(pt => pt.UsageType == propertyUsage || pt.UsageType == PropertyUsageType.Both).ToList();
-            return propertyTypes;
-        }
-
-        public void Insert(PropertyType propertyType)
-        {
-            dBContext.PropertyTypes.Add(propertyType);
-            Save();
-        }
-
         public void Save()
         {
             dBContext.SaveChanges();
         }
 
-        public void Update(PropertyType propertyType)
+        public void Update(PropertyType item)
         {
-            dBContext.Entry(propertyType).State = EntityState.Modified;
+            dBContext.Entry(item).State = EntityState.Modified;
             Save();
         }
     }

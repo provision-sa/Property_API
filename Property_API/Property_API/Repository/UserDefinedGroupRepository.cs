@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Property_API.Models;
@@ -14,30 +15,102 @@ namespace Property_API.Repository
             dBContext = _dBContext;
         }
 
-        public void Delete(int id)
+        public List<UserDefinedGroup> Get(Func<UserDefinedGroup, bool> where)
         {
-            var userDefinedGroup = dBContext.UserDefinedGroups.Find(id);
-            if (userDefinedGroup != null)
-            {
-                dBContext.UserDefinedGroups.Remove(userDefinedGroup);
-                Save();
-            }
+            return dBContext.UserDefinedGroups.Where(where).ToList();
         }
 
-        public UserDefinedGroup GetById(int id)
-        {
-            return dBContext.UserDefinedGroups.Find(id);
-        }
-
-        public IEnumerable<UserDefinedGroup> GetList()
+        public List<UserDefinedGroup> GetAll()
         {
             return dBContext.UserDefinedGroups.ToList();
         }
 
-        public void Insert(UserDefinedGroup userDefinedGroup)
+        public UserDefinedGroup GetDetailed(Func<UserDefinedGroup, bool> first)
         {
-            dBContext.UserDefinedGroups.Add(userDefinedGroup);
+            return dBContext.UserDefinedGroups.FirstOrDefault(first);
+        }
+
+        public List<UserDefinedGroup> GetDetailedAll()
+        {
+            return dBContext.UserDefinedGroups.ToList();
+        }
+
+        public List<Group> GetFieldList(string name)
+        {
+            List<Group> FieldGroups = new List<Group>();
+            List<UserDefinedGroup> Groups;
+            if (name == "Property Overview")
+                Groups = dBContext.UserDefinedGroups.Where(x => x.Description == "Property Overview").OrderBy(x => x.Rank).ToList();
+            else
+                Groups = dBContext.UserDefinedGroups.Where(x => x.Description != "Property Overview").OrderBy(x => x.Rank).ToList();
+
+
+            foreach (var group in Groups)
+            {
+                var fields = dBContext.UserDefinedFields.Where(x => x.GroupId == group.Id).ToList();
+                if (fields.Count > 0)
+                {
+                    var item = new Group()
+                    {
+                        Name = group.Description,
+                        Fields = new List<GroupFields>()
+                    };
+
+                    FieldGroups.Add(item);
+
+                    foreach (var field in fields)
+                    {
+                        item.Fields.Add(new GroupFields()
+                        {
+                            ID = field.Id,
+                            Name = field.FieldName,
+                            Type = field.FieldType
+                        });
+                    }
+                }
+            }
+
+            return FieldGroups;
+        }
+
+        public void Insert(UserDefinedGroup item)
+        {
+            dBContext.UserDefinedGroups.Add(item);
             Save();
+        }
+
+        public void Insert(IEnumerable<UserDefinedGroup> items)
+        {
+            foreach(var item in items)
+            {
+                dBContext.UserDefinedGroups.Add(item);
+                Save();
+            }
+        }
+
+        public void Remove(UserDefinedGroup item)
+        {
+            dBContext.UserDefinedGroups.Remove(item);
+            Save();
+        }
+
+        public void Remove(IEnumerable<UserDefinedGroup> items)
+        {
+            foreach(var item in items)
+            {
+                dBContext.UserDefinedGroups.Remove(item);
+                Save();
+            }
+        }
+
+        public void RemoveAtId(int item)
+        {
+            var userDefinedGroups = Get(x => x.Id == item).FirstOrDefault();
+            if (userDefinedGroups != null)
+            {
+                dBContext.UserDefinedGroups.Remove(userDefinedGroups);
+                Save();
+            }
         }
 
         public void Save()
@@ -45,9 +118,9 @@ namespace Property_API.Repository
             dBContext.SaveChanges();
         }
 
-        public void Update(UserDefinedGroup userDefinedGroup)
+        public void Update(UserDefinedGroup item)
         {
-            dBContext.Entry(userDefinedGroup).State = EntityState.Modified;
+            dBContext.Entry(item).State = EntityState.Modified;
             Save();
         }
     }

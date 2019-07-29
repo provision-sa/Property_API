@@ -14,6 +14,7 @@ namespace Property_API.Models
         }
         
         public DbSet<Property> Properties { get; set; }
+        public DbSet<PropertyImage> PropertyImages { get; set; }
         public DbSet<PropertyType> PropertyTypes { get; set; }
         public DbSet<PropertyUserField> PropertyUserFields { get; set; }
         public DbSet<UserDefinedField> UserDefinedFields { get; set; }

@@ -7,56 +7,53 @@ namespace Property_API.Controllers
 {
     [Route("Property/[controller]")]
     [ApiController]
-    public class PropertyController : ControllerBase
+    public class PropertyUserFieldController : ControllerBase
     {
-        private readonly IRepository<Property> _Repo;
+        private readonly IRepository<PropertyUserField> _Repo;
 
-        public PropertyController(IRepository<Property> repo)
+        public PropertyUserFieldController(IRepository<PropertyUserField> repo)
         {
             _Repo = repo;
         }
-        
+
         [HttpGet]
         public IActionResult Get()
         {
             return new OkObjectResult(_Repo.GetAll());
         }
-        
+
         [HttpGet("{id}")]
-        public IActionResult Get(int id) //, bool detailed = false)
+        public IActionResult Get(int id)
         {
-            //if (detailed)
-            return new OkObjectResult(_Repo.GetDetailed(x => x.Id == id ));
-            //else
-            //    return new OkObjectResult(_propertyRepository.GetById(id));
+            return new OkObjectResult(_Repo.GetDetailed(x => x.Id == id));
         }
-        
+
         [HttpPost]
-        public IActionResult Post([FromBody] Property property)
+        public IActionResult Post([FromBody] PropertyUserField propertyUserField)
         {
             using (var scope = new TransactionScope())
             {
-                _Repo.Update(property);
+                _Repo.Insert(propertyUserField);
                 scope.Complete();
-                return CreatedAtAction(nameof(Get), new { id = property.Id }, property);
-            }            
+                return CreatedAtAction(nameof(Get), new { id = propertyUserField.Id }, propertyUserField);
+            }
         }
-        
+
         [HttpPut]
-        public IActionResult Put([FromBody] Property property)
+        public IActionResult Put([FromBody] PropertyUserField propertyUserField)
         {
-            if (property != null)
+            if (propertyUserField != null)
             {
                 using (var scope = new TransactionScope())
                 {
-                    _Repo.Update(property);
+                    _Repo.Update(propertyUserField);
                     scope.Complete();
                     return new OkResult();
                 }
             }
             return new NoContentResult();
         }
-        
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

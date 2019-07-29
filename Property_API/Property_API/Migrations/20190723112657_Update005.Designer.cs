@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Property_API.Models;
 
 namespace Property_API.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20190723112657_Update005")]
+    partial class Update005
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,8 +123,6 @@ namespace Property_API.Migrations
 
                     b.Property<string>("FieldName");
 
-                    b.Property<string>("FieldType");
-
                     b.Property<int>("GroupId");
 
                     b.Property<int>("Rank");
@@ -183,7 +183,7 @@ namespace Property_API.Migrations
             modelBuilder.Entity("Property_API.Models.UserDefinedField", b =>
                 {
                     b.HasOne("Property_API.Models.UserDefinedGroup", "Group")
-                        .WithMany("Fields")
+                        .WithMany()
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

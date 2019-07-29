@@ -3,13 +3,8 @@ using System.Collections.Generic;
 
 namespace Property_API.Repository
 {
-    public interface IUserDefinedGroupRepository
+    public interface IUserDefinedGroupRepository : IRepository<UserDefinedGroup>
     {
-        IEnumerable<UserDefinedGroup> GetList();
-        UserDefinedGroup GetById(int id);
-        void Insert(UserDefinedGroup userDefinedGroup);
-        void Delete(int id);
-        void Update(UserDefinedGroup userDefinedGroup);
-        void Save();
+        List<Group> GetFieldList(string name);
     }
 }

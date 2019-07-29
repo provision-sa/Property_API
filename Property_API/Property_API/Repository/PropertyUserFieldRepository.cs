@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Property_API.Models;
 
 namespace Property_API.Repository
 {
-    public class PropertyUserFieldRepository : IPropertyUserFieldRepository
+    public class PropertyUserFieldRepository : IRepository<PropertyUserField>
     {
         private readonly DBContext dBContext;
 
@@ -13,9 +14,60 @@ namespace Property_API.Repository
         {
             dBContext = _dBContext;
         }
-        public void Delete(int id)
+
+        public List<PropertyUserField> Get(Func<PropertyUserField, bool> where)
         {
-            var propertyUserField = dBContext.PropertyUserFields.Find(id);
+            return dBContext.PropertyUserFields.Where(where).ToList();
+        }
+
+        public List<PropertyUserField> GetAll()
+        {
+            return dBContext.PropertyUserFields.ToList();
+        }
+
+        public PropertyUserField GetDetailed(Func<PropertyUserField, bool> first)
+        {
+            return dBContext.PropertyUserFields.FirstOrDefault(first);
+        }
+
+        public List<PropertyUserField> GetDetailedAll()
+        {
+            return dBContext.PropertyUserFields.ToList();
+        }
+
+        public void Insert(PropertyUserField item)
+        {
+            dBContext.PropertyUserFields.Add(item);
+            Save();
+        }
+
+        public void Insert(IEnumerable<PropertyUserField> items)
+        {
+            foreach (var item in items)
+            {
+                dBContext.PropertyUserFields.Add(item);
+                Save();
+            }
+        }
+
+        public void Remove(PropertyUserField item)
+        {
+            dBContext.PropertyUserFields.Remove(item);
+            Save();
+        }
+
+        public void Remove(IEnumerable<PropertyUserField> items)
+        {
+            foreach (var item in items)
+            {
+                dBContext.PropertyUserFields.Remove(item);
+                Save();
+            }
+        }
+
+        public void RemoveAtId(int item)
+        {
+            var propertyUserField = Get(x => x.Id == item).FirstOrDefault();
             if (propertyUserField != null)
             {
                 dBContext.PropertyUserFields.Remove(propertyUserField);
@@ -23,30 +75,14 @@ namespace Property_API.Repository
             }
         }
 
-        public PropertyUserField GetById(int id)
-        {
-            return dBContext.PropertyUserFields.Find(id);
-        }
-
-        public IEnumerable<PropertyUserField> GetList()
-        {
-            return dBContext.PropertyUserFields.ToList();
-        }
-
-        public void Insert(PropertyUserField propertyUserField)
-        {
-            dBContext.PropertyUserFields.Add(propertyUserField);
-            Save();
-        }
-
         public void Save()
         {
             dBContext.SaveChanges();
         }
 
-        public void Update(PropertyUserField propertyUserField)
+        public void Update(PropertyUserField item)
         {
-            dBContext.Entry(propertyUserField).State = EntityState.Modified;
+            dBContext.Entry(item).State = EntityState.Modified;
             Save();
         }
     }
