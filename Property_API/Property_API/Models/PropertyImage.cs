@@ -7,7 +7,7 @@ namespace Property_API.Models
         [Key]
         public int Id { get; set; }
         public int PropertyId { get; set; }
-        public string ImagePath { get; set; }
+        public string Image { get; set; }
         public bool IsDefault { get; set; }
         public virtual Property Property { get; set; }
     }

@@ -55,7 +55,7 @@ namespace Property_API.Repository
             property.DisplayImage = (from i in dBContext.PropertyImages
                                        where i.PropertyId == propID
                                        && i.IsDefault
-                                       select i.ImagePath).FirstOrDefault();            
+                                       select i.Image).FirstOrDefault();            
 
             var groups = (from g in dBContext.UserDefinedGroups
                           where g.UsageType == propertyType.UsageType
