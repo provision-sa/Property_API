@@ -10,6 +10,9 @@ namespace Property_API.Models
         [Key]
         public int Id { get; set; }
         public int PropertyTypeId { get; set; }
+        public string PropertyName { get; set; }
+        public string Unit { get; set; }
+        public decimal OperationalCosts { get; set; }
         public DateTime DateCreated { get; set; }
         public decimal Price { get; set; }
         public string PricePer { get; set; }

@@ -34,7 +34,7 @@ namespace Property_API
             services.AddDbContext<DBContext>(o => o.UseSqlServer(Configuration.GetConnectionString("PropertySQL")));
 
             services.AddTransient<IRepository<Property>, PropertyRepository>();
-            services.AddTransient<IRepository<PropertyImage>, PropertyImageRepository>();
+            services.AddTransient<IPropertyImageRepository, PropertyImageRepository>();
             services.AddTransient<IRepository<PropertyType>, PropertyTypeRepository>();
             services.AddTransient<IRepository<PropertyUserField>, PropertyUserFieldRepository>();
             services.AddTransient<IRepository<UserDefinedField>, UserDefinedFieldRepository>();

@@ -6,7 +6,12 @@ using System.Linq;
 
 namespace Property_API.Repository
 {
-    public class PropertyImageRepository : IRepository<PropertyImage>
+    public interface IPropertyImageRepository : IRepository<PropertyImage>
+    {
+        List<string> GetImages(int PropertyId);
+    }
+
+    public class PropertyImageRepository : IPropertyImageRepository
     {
         private readonly DBContext dBContext;
 
@@ -32,6 +37,15 @@ namespace Property_API.Repository
         public List<PropertyImage> GetDetailedAll()
         {
             throw new NotImplementedException();
+        }        
+
+        public List<string> GetImages(int PropertyId)
+        {
+            var images = (from p in dBContext.PropertyImages
+                          where p.PropertyId == PropertyId
+                          select p.Image).ToList();
+
+            return images;
         }
 
         public void Insert(PropertyImage item)

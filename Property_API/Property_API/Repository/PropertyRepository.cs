@@ -22,7 +22,16 @@ namespace Property_API.Repository
 
         public List<Property> GetAll()
         {
-            return dBContext.Properties.ToList();
+            var properties = dBContext.Properties.ToList();
+            foreach (var property in properties)
+            {
+                property.DisplayImage = (from i in dBContext.PropertyImages
+                                         where i.PropertyId == property.Id
+                                         && i.IsDefault
+                                         select i.Image).FirstOrDefault();
+            }
+
+            return properties;
         }
 
         public Property GetDetailed(Func<Property, bool> first)
@@ -51,11 +60,7 @@ namespace Property_API.Repository
         {
             int propID = property.Id;
             var propertyType = dBContext.PropertyTypes.Find(property.PropertyTypeId);
-            property.DisplayData = new List<PropertyDetailGroup>();
-            property.DisplayImage = (from i in dBContext.PropertyImages
-                                       where i.PropertyId == propID
-                                       && i.IsDefault
-                                       select i.Image).FirstOrDefault();            
+            property.DisplayData = new List<PropertyDetailGroup>();          
 
             var groups = (from g in dBContext.UserDefinedGroups
                           where g.UsageType == propertyType.UsageType

@@ -9,9 +9,9 @@ namespace Property_API.Controllers
     [ApiController]
     public class PropertyImageController : ControllerBase
     {
-        private readonly IRepository<PropertyImage> _Repo;
+        private readonly IPropertyImageRepository _Repo;
 
-        public PropertyImageController(IRepository<PropertyImage> repo)
+        public PropertyImageController(IPropertyImageRepository repo)
         {
             _Repo = repo;
         }
@@ -31,7 +31,7 @@ namespace Property_API.Controllers
         [HttpGet("{Property}/{PropertyId}", Name ="GetImagesByProperty")]
         public IActionResult Get(string Property, int PropertyId) //Property string is more of a placeholder here.
         {            
-            return new OkObjectResult(_Repo.GetDetailed(x => x.PropertyId == PropertyId));
+            return new OkObjectResult(_Repo.GetImages(PropertyId));
         }
 
         [HttpPost]
