@@ -8,6 +8,7 @@ namespace Property_API.Models
     public class Property
     {        
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int PropertyTypeId { get; set; }
         public string PropertyName { get; set; }

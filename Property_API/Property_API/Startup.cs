@@ -30,8 +30,8 @@ namespace Property_API
             }));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            //services.AddDbContext<DBContext>(o => o.UseNpgsql(Configuration.GetConnectionString("PropertyDB")));
-            services.AddDbContext<DBContext>(o => o.UseSqlServer(Configuration.GetConnectionString("PropertySQL")));
+            services.AddDbContext<DBContext>(o => o.UseNpgsql(Configuration.GetConnectionString("PropertyDB")));
+            //services.AddDbContext<DBContext>(o => o.UseSqlServer(Configuration.GetConnectionString("PropertySQL")));
 
             services.AddTransient<IRepository<Property>, PropertyRepository>();
             services.AddTransient<IPropertyImageRepository, PropertyImageRepository>();
